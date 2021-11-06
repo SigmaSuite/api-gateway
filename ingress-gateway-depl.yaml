@@ -26,3 +26,10 @@ spec:
             name: front-soe-composite
             port: 
               number: 80
+      - path: "/api/auth"
+        pathType: Prefix
+        backend:
+          service:
+            name: authentication-service
+            port:
+              number: 80
