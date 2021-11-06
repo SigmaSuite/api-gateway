@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-gateway
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  # annotations:
+  #   nginx.com/jwt-key: "ss-jwk"
+  #   nginx.com/jwt-realm: "Sigma Suite"
+  #   nginx.com/jwt-token: "$cookie_auth_token"
+  #   nginx.com/jwt-login-url: "https://login.example.com"
+spec:
+  # tls:
+  # - hosts: 
+  #   - kubernetes.docker.internal
+  rules:
+  - host: kubernetes.docker.internal
+    http:
+      paths:
+      - path: "/soe"
+        pathType: Prefix
+        backend:
+          service:
+            name: front-soe-composite
+            port: 
+              number: 80
