@@ -3,8 +3,9 @@ kind: Ingress
 metadata:
   name: ingress-gateway
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
     kubernetes.io/ingress.class: "nginx"
+    # nginx.ingress.kubernetes.io/add-base-url: "true"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
   # annotations:
   #   nginx.com/jwt-key: "ss-jwk"
@@ -19,17 +20,31 @@ spec:
   - host: kubernetes.docker.internal
     http:
       paths:
-      - path: "/soe"
+      - path: "/soe(/|$)(.*)"
         pathType: Prefix
         backend:
           service:
             name: front-soe-composite
             port: 
               number: 80
-      - path: "/api/auth"
+      - path: "/api/auth(/|$)(.*)"
         pathType: Prefix
         backend:
           service:
             name: authentication-service
+            port:
+              number: 80
+      - path: "/module/site-map(/|$)(.*)"
+        pathType: Prefix
+        backend:
+          service:
+            name: front-soe-site-map
+            port:
+              number: 80
+      - path: "/module/auth(/|$)(.*)"
+        pathType: Prefix
+        backend:
+          service:
+            name: front-soe-auth
             port:
               number: 80
