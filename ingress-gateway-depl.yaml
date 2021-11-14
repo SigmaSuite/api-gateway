@@ -41,6 +41,13 @@ spec:
             name: front-soe-site-map
             port:
               number: 80
+      - path: "/module/login(/|$)(.*)"
+        pathType: Prefix
+        backend:
+          service:
+            name: front-soe-login
+            port:
+              number: 80
       - path: "/module/auth(/|$)(.*)"
         pathType: Prefix
         backend:
